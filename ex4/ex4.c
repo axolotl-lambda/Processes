@@ -12,7 +12,28 @@ int main(void)
 {
     int rc = fork();
 
-    execl("/bin/ls", "ls", (char *)0);
+    if (rc < 0)
+    {
+        fprintf(stderr, "fork failed\n");
+        exit(1);
+    }
+    else if (rc == 0)
+    {
+        // execl example
+        // fprintf(stdout, "execl example:\n");
+        // execl("/bin/ls", "ls", "-l", "-a", (char *)0);
+
+        // execv example
+        char *args[] = {"ls", "-l", "-a", NULL};
+        execv("/bin/ls", args);
+
+        // e is used to pass environment vars to child new process
+    }
+    else
+    {
+        wait(NULL);
+        // printf("In parent. Finishing.");
+    }
 
     return 0;
 }
